@@ -99,8 +99,7 @@ class ThermalSystem:
         Calculates the rate of change of temperature (with respect to time) for each node.
 
         :param t: The current time.
-        :param T: A list of the starting temperatures of the nodes.
-                  If a single integer is given, then all nodes will start at that temperature.
+        :param T: A list of the temperatures of the nodes.
         :return: The rate of change of the temperatures of the nodes (with respect to time).
         """
         # dT/dt = (1/mc)*dQ/dt
@@ -108,6 +107,17 @@ class ThermalSystem:
         return heat_flux / self.thermal_capacitances
 
     def integrate(self, T_0, t_f, method='RK45', rtol=1e-9, atol=1e-12):
+        """
+
+        :param T_0: A list of the starting temperatures of the nodes.
+                    If a single integer is given, then all nodes will start at that temperature.
+        :param t_f: The amount of time to integrate for.
+        :param method: The numerical integration scheme. Defaults to RK 4-5
+        :param rtol: The relative tolerance (similar to the significant figures). See scipy.integrate.solve_ivp
+        :param atol: The absolute tolerance. See scipy.integrate.solve_ivp
+        :return: A tuple consisting of the time values (vector of length N),
+                 and the temperature values (matrix of shape (node_count, N))
+        """
         if type(T_0) is not list:
             T_0 = [T_0] * len(self.thermal_capacitances)
         result = solve_ivp(self.heat_step, (0, t_f), T_0, method=method, rtol=rtol, atol=atol)
