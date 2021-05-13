@@ -5,7 +5,7 @@ from scipy.integrate import solve_ivp
 class ThermalSystem:
     def __init__(self, thermal_capacitances, node_labels=None):
         """
-        A list of thermal capacitances in J/K. Every node in the system has its own temperature and  capacitance.
+        A list of thermal capacitances in J/K. Every node in the system has its own temperature and capacitance.
         If the temperature is constant (i.e. the environment) assign it a capacitance of np.inf.
 
         :param thermal_capacitances: The list of thermal capacitances in J/K.
